@@ -4,6 +4,7 @@ import { FaDiscord } from "react-icons/fa";
 import useAppStore from "../../store/store";
 import SettingsModal from "../SettingsModal";
 import { RAIL, URLS } from "./constants";
+import { useDismissableMenu } from "./useDismissableMenu";
 
 /**
  * Dark 56px navigation rail on the far left of design v2.
@@ -17,11 +18,13 @@ const Rail = () => {
   const sampleName = useAppStore((s) => s.sampleName);
   const setSettingsOpen = useAppStore((s) => s.setSettingsOpen);
   const closeMenu = () => setMenuOpen(false);
+  const { triggerRef: menuTriggerRef, menuRef } = useDismissableMenu(menuOpen, closeMenu);
 
   return (
     <>
       <aside className="nd-rail" aria-label={RAIL.navLabel}>
         <button
+          ref={menuTriggerRef}
           type="button"
           className={`nd-rail-menu ${menuOpen ? "nd-rail-menu-open" : ""}`}
           title={RAIL.menuButton}
@@ -55,8 +58,9 @@ const Rail = () => {
 
       {menuOpen && (
         <>
-          <div className="nd-menu-backdrop" onClick={() => setMenuOpen(false)} />
-          <div className="nd-menu" role="menu" aria-label={RAIL.menuButton}>
+          {/* Pointer-only dismissal; keyboard users close with Escape (see useDismissableMenu). */}
+          <div className="nd-menu-backdrop" aria-hidden="true" onClick={closeMenu} />
+          <div ref={menuRef} className="nd-menu" role="menu" aria-label={RAIL.menuButton}>
             <div className="nd-menu-head">
               <div className="nd-menu-title">{RAIL.menuTitle}</div>
               <div className="nd-menu-sub">{RAIL.menuSubtitle}</div>

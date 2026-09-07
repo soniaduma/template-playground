@@ -3,6 +3,7 @@ import { QuestionOutlined, UserOutlined, InfoOutlined, BookOutlined, CaretDownFi
 import useAppStore from "../../store/store";
 import { STEPS, type DesignV2View } from "./types";
 import { HEADER, URLS } from "./constants";
+import { useDismissableMenu } from "./useDismissableMenu";
 
 /** Same links as the legacy navbar's Help dropdown. */
 const HELP_LINKS = {
@@ -28,6 +29,8 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
   const showChrome = view !== "welcome";
   const sampleName = useAppStore((s) => s.sampleName);
   const [helpOpen, setHelpOpen] = useState(false);
+  const closeHelp = () => setHelpOpen(false);
+  const { triggerRef: helpTriggerRef, menuRef: helpMenuRef } = useDismissableMenu(helpOpen, closeHelp);
 
   return (
     <header className="nd-header">
@@ -45,6 +48,7 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
           <button type="button" className="nd-btn-ghost">{HEADER.docs}</button>
           <div className="nd-help">
             <button
+              ref={helpTriggerRef}
               type="button"
               className={`nd-btn-ghost ${helpOpen ? "nd-btn-ghost-active" : ""}`}
               aria-haspopup="menu"
@@ -55,18 +59,19 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
             </button>
             {helpOpen && (
               <>
-                <div className="nd-help-backdrop" onClick={() => setHelpOpen(false)} />
-                <div className="nd-help-menu" role="menu" aria-label={HEADER.helpMenuLabel}>
+                {/* Pointer-only dismissal; keyboard users close with Escape (see useDismissableMenu). */}
+                <div className="nd-help-backdrop" aria-hidden="true" onClick={closeHelp} />
+                <div ref={helpMenuRef} className="nd-help-menu" role="menu" aria-label={HEADER.helpMenuLabel}>
                   <div className="nd-help-group">{HEADER.helpGroupInfo}</div>
                   {HELP_LINKS.info.map((l) => (
-                    <a key={l.label} role="menuitem" className="nd-help-item" href={l.href} target="_blank" rel="noopener noreferrer" onClick={() => setHelpOpen(false)}>
+                    <a key={l.label} role="menuitem" className="nd-help-item" href={l.href} target="_blank" rel="noopener noreferrer" onClick={closeHelp}>
                       {l.icon}
                       <span>{l.label}</span>
                     </a>
                   ))}
                   <div className="nd-help-group">{HEADER.helpGroupDocs}</div>
                   {HELP_LINKS.docs.map((l) => (
-                    <a key={l.label} role="menuitem" className="nd-help-item" href={l.href} target="_blank" rel="noopener noreferrer" onClick={() => setHelpOpen(false)}>
+                    <a key={l.label} role="menuitem" className="nd-help-item" href={l.href} target="_blank" rel="noopener noreferrer" onClick={closeHelp}>
                       {l.icon}
                       <span>{l.label}</span>
                     </a>
