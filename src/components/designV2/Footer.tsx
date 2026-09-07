@@ -1,4 +1,4 @@
-import { FIRST_STEP, LAST_STEP, STEP_ID, type DesignV2View } from "./types";
+import { FIRST_STEP, LAST_STEP, STEP_ID, type DesignV2View } from "../../types/designV2.types";
 import { FOOTER } from "./constants";
 
 interface FooterProps {

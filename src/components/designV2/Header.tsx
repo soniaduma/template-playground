@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { QuestionOutlined, UserOutlined, InfoOutlined, BookOutlined, CaretDownFilled } from "@ant-design/icons";
 import useAppStore from "../../store/store";
-import { STEPS, type DesignV2View } from "./types";
+import { STEPS, type DesignV2View } from "../../types/designV2.types";
 import { HEADER, URLS } from "./constants";
 import { useDismissableMenu } from "./useDismissableMenu";
 

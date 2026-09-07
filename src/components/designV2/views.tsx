@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import HelpRail from "./HelpRail";
-import { STEPS, STEP_ID, STEP_KEY, isEditorStep, type EditorStepKey, type DesignV2View } from "./types";
+import { STEPS, STEP_ID, STEP_KEY, isEditorStep, type EditorStepKey, type DesignV2View } from "../../types/designV2.types";
 import { ROUTES, WELCOME, START, EDITOR, SIMULATE, DEPLOY, type EditorMeta } from "./constants";
 
 /*

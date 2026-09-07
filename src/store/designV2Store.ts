@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { STEPS, FIRST_STEP, type DesignV2View } from "../components/designV2/types";
+import { STEPS, FIRST_STEP, type DesignV2View } from "../types/designV2.types";
 
 /**
  * State for the design-v2 (step-based) layout.
