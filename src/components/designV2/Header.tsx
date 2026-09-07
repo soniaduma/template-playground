@@ -93,15 +93,14 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
       </div>
 
       {showChrome && (
-        <div className="nd-stepper" role="tablist" aria-label={HEADER.stepperLabel}>
+        <nav className="nd-stepper" aria-label={HEADER.stepperLabel}>
           {STEPS.map((step) => {
             const active = step.id === view;
             return (
               <button
                 key={String(step.id)}
                 type="button"
-                role="tab"
-                aria-selected={active}
+                aria-current={active ? "step" : undefined}
                 className={`nd-step ${active ? "nd-step-active" : ""}`}
                 onClick={() => onNavigate(step.id)}
               >
@@ -113,7 +112,7 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
               </button>
             );
           })}
-        </div>
+        </nav>
       )}
     </header>
   );
