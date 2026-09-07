@@ -52,7 +52,7 @@ const DesignV2Layout = () => {
           <div className="nd-body-content">
             <ViewSwitch view={view} onStart={start} />
           </div>
-          {previewOpen && <PreviewDrawer onClose={() => setPreviewOpen(false)} />}
+          <PreviewDrawer open={previewOpen} onClose={() => setPreviewOpen(false)} />
         </div>
         {showChrome && <Footer view={view} onBack={goBack} onNext={goNext} />}
       </div>

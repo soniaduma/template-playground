@@ -1,22 +1,34 @@
-import { useState } from "react";
-import { Button } from "antd";
+import { Button, Dropdown, type MenuProps } from "antd";
 import { QuestionOutlined, UserOutlined, InfoOutlined, BookOutlined, CaretDownFilled } from "@ant-design/icons";
 import useAppStore from "../../store/store";
 import { STEPS, type DesignV2View } from "../../types/designV2.types";
 import { HEADER, URLS } from "./constants";
-import { useDismissableMenu } from "./useDismissableMenu";
+
+const externalLink = (label: string, href: string) => (
+  <a href={href} target="_blank" rel="noopener noreferrer">
+    {label}
+  </a>
+);
 
 /** Same links as the legacy navbar's Help dropdown. */
-const HELP_LINKS = {
-  info: [
-    { label: HEADER.links.about, href: URLS.readme, icon: <QuestionOutlined /> },
-    { label: HEADER.links.community, href: URLS.discord, icon: <UserOutlined /> },
-    { label: HEADER.links.issues, href: URLS.issues, icon: <InfoOutlined /> },
-  ],
-  docs: [
-    { label: HEADER.links.documentation, href: URLS.engineDocs, icon: <BookOutlined /> },
-  ],
-};
+const HELP_MENU: MenuProps["items"] = [
+  {
+    type: "group",
+    label: HEADER.helpGroupInfo,
+    children: [
+      { key: "about", icon: <QuestionOutlined />, label: externalLink(HEADER.links.about, URLS.readme) },
+      { key: "community", icon: <UserOutlined />, label: externalLink(HEADER.links.community, URLS.discord) },
+      { key: "issues", icon: <InfoOutlined />, label: externalLink(HEADER.links.issues, URLS.issues) },
+    ],
+  },
+  {
+    type: "group",
+    label: HEADER.helpGroupDocs,
+    children: [
+      { key: "documentation", icon: <BookOutlined />, label: externalLink(HEADER.links.documentation, URLS.engineDocs) },
+    ],
+  },
+];
 
 interface HeaderProps {
   view: DesignV2View;
@@ -29,9 +41,6 @@ interface HeaderProps {
 const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps) => {
   const showChrome = view !== "welcome";
   const sampleName = useAppStore((s) => s.sampleName);
-  const [helpOpen, setHelpOpen] = useState(false);
-  const closeHelp = () => setHelpOpen(false);
-  const { triggerRef: helpTriggerRef, menuRef: helpMenuRef } = useDismissableMenu(helpOpen, closeHelp);
 
   return (
     <header className="nd-header">
@@ -47,40 +56,11 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
         <div className="nd-spacer" />
         <div className="nd-header-actions">
           <Button type="text" size="small">{HEADER.docs}</Button>
-          <div className="nd-help">
-            <Button
-              ref={helpTriggerRef}
-              type="text"
-              size="small"
-              aria-haspopup="menu"
-              aria-expanded={helpOpen}
-              onClick={() => setHelpOpen((v) => !v)}
-            >
+          <Dropdown menu={{ items: HELP_MENU }} trigger={["click"]} placement="bottomRight">
+            <Button type="text" size="small" aria-label={HEADER.helpMenuLabel}>
               {HEADER.help} <CaretDownFilled className="nd-help-caret" />
             </Button>
-            {helpOpen && (
-              <>
-                {/* Pointer-only dismissal; keyboard users close with Escape (see useDismissableMenu). */}
-                <div className="nd-help-backdrop" aria-hidden="true" onClick={closeHelp} />
-                <div ref={helpMenuRef} className="nd-help-menu" role="menu" aria-label={HEADER.helpMenuLabel}>
-                  <div className="nd-help-group">{HEADER.helpGroupInfo}</div>
-                  {HELP_LINKS.info.map((l) => (
-                    <a key={l.label} role="menuitem" className="nd-help-item" href={l.href} target="_blank" rel="noopener noreferrer" onClick={closeHelp}>
-                      {l.icon}
-                      <span>{l.label}</span>
-                    </a>
-                  ))}
-                  <div className="nd-help-group">{HEADER.helpGroupDocs}</div>
-                  {HELP_LINKS.docs.map((l) => (
-                    <a key={l.label} role="menuitem" className="nd-help-item" href={l.href} target="_blank" rel="noopener noreferrer" onClick={closeHelp}>
-                      {l.icon}
-                      <span>{l.label}</span>
-                    </a>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+          </Dropdown>
           <Button size="small">{HEADER.advanced}</Button>
           <Button
             size="small"

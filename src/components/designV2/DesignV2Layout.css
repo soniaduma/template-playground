@@ -80,33 +80,24 @@
 .nd-rail-link:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
 
 /* ---------- Playground menu (from the rail) ---------- */
-.nd-menu-backdrop { position: absolute; inset: 0; z-index: 34; background: rgba(7, 35, 48, 0.28); }
+/* Rendered inside antd Dropdown (see Rail.tsx dropdownRender). */
 .nd-menu {
-  position: absolute; left: 64px; top: 14px; z-index: 35; width: 296px;
-  background: #fff; border: 1px solid #d8e5e8; border-radius: 12px;
+  width: 296px; background: #fff; border: 1px solid #d8e5e8; border-radius: 12px;
   box-shadow: 0 22px 54px rgba(7, 35, 48, 0.28); overflow: hidden;
-  animation: nd-fade-up 0.16s ease both;
-  display: flex; flex-direction: column; max-height: calc(100% - 28px);
+  display: flex; flex-direction: column;
 }
+.nd-menu .ant-dropdown-menu { box-shadow: none; border-radius: 0; padding: 7px; }
+.nd-menu .ant-dropdown-menu-item { align-items: flex-start; gap: 11px; padding: 8px 10px; border-radius: 9px; }
+.nd-menu .ant-dropdown-menu-item-icon { margin-inline-end: 0; }
 .nd-menu-head { padding: 13px 15px 11px; border-bottom: 1px solid var(--nd-line-soft); background: var(--nd-surface); }
 .nd-menu-title { font-size: 13px; font-weight: 600; letter-spacing: -0.015em; }
 .nd-menu-sub { font-size: 11.5px; color: var(--nd-text-4); margin-top: 2px; }
-.nd-menu-body { padding: 7px; overflow-y: auto; }
-.nd-menu-group { font-size: 10px; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase; color: var(--nd-text-4); padding: 8px 10px 4px; }
-.nd-menu-item {
-  display: flex; align-items: flex-start; gap: 11px; width: 100%; text-align: left;
-  background: none; border: 0; border-radius: 9px; padding: 8px 10px; cursor: pointer;
-  color: inherit; text-decoration: none; font-family: inherit;
-}
-.nd-menu-item:hover { background: #f1f7f8; }
-.nd-menu-item-active { background: var(--nd-teal-tint); }
 .nd-menu-icon {
   width: 26px; height: 26px; flex: none; border-radius: 7px;
   background: var(--nd-line-soft); color: var(--nd-text-2);
   font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;
 }
 .nd-menu-icon-teal { background: var(--nd-teal-tint); color: var(--nd-teal); }
-.nd-menu-item-active .nd-menu-icon { background: var(--nd-teal); color: #fff; }
 .nd-menu-item-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .nd-menu-item-label { font-size: 12.5px; font-weight: 600; color: #16323c; }
 .nd-menu-item-hint { font-size: 11px; color: var(--nd-text-4); line-height: 1.4; }
@@ -141,24 +132,7 @@
 }
 
 /* Help dropdown */
-.nd-help { position: relative; }
 .nd-help-caret { font-size: 9px; margin-left: 3px; }
-.nd-help-backdrop { position: fixed; inset: 0; z-index: 30; }
-.nd-help-menu {
-  position: absolute; top: calc(100% + 6px); right: 0; z-index: 31; min-width: 200px;
-  background: #fff; border: 1px solid #d8e5e8; border-radius: 10px; padding: 6px;
-  box-shadow: 0 16px 40px rgba(7, 35, 48, 0.18); animation: nd-fade-up 0.14s ease both;
-}
-.nd-help-group {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase;
-  color: var(--nd-text-4); padding: 8px 10px 4px;
-}
-.nd-help-item {
-  display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 7px;
-  font-size: 12.5px; font-weight: 500; color: #16323c; text-decoration: none;
-}
-.nd-help-item:hover { background: #f1f7f8; }
-.nd-help-item .anticon { color: var(--nd-text-3); font-size: 13px; }
 
 .nd-stepper {
   display: flex; align-items: stretch; flex-wrap: wrap; gap: 7px;
@@ -295,13 +269,8 @@
 .nd-card-title-strong { font-size: 12px; font-weight: 600; }
 .nd-card-body { padding: 12px 14px 13px; display: flex; flex-direction: column; gap: 9px; }
 .nd-checklist { display: flex; flex-direction: column; gap: 11px; padding: 0 14px 13px; }
-.nd-tabs { display: flex; align-items: stretch; border-bottom: 1px solid var(--nd-line-soft); background: var(--nd-surface); }
-.nd-tab {
-  flex: 1; background: none; border: 0; border-bottom: 2px solid transparent;
-  padding: 8px 10px; cursor: pointer;
-  font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; color: var(--nd-text-4); white-space: nowrap;
-}
-.nd-tab-active { background: #fff; border-bottom-color: var(--nd-teal); color: var(--nd-teal); }
+.nd-card-tabs .ant-tabs-nav { margin-bottom: 0; background: var(--nd-surface); }
+.nd-card-tabs .ant-tabs-tab { font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; }
 
 /* Simulate */
 .nd-view-simulate { flex-direction: column; padding: 18px 20px 20px; gap: 12px; }
@@ -319,18 +288,10 @@
 .nd-export-card { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
 .nd-export-label { font-size: 13.5px; font-weight: 600; }
 
-/* Preview drawer */
-.nd-preview {
-  position: absolute; top: 0; right: 0; bottom: 0;
-  width: 412px; max-width: 62%; z-index: 20;
-  border-left: 1px solid var(--nd-line); background: #fff;
-  display: flex; flex-direction: column;
-  box-shadow: -22px 0 50px rgba(15, 32, 39, 0.12);
-  animation: nd-slide-in 0.22s ease both;
-}
-.nd-preview-head { display: flex; align-items: center; gap: 10px; padding: 14px 17px; border-bottom: 1px solid var(--nd-line-soft); }
+/* Preview drawer (antd Drawer rendered inline, see PreviewDrawer.tsx) */
+.nd-preview .ant-drawer-content-wrapper { box-shadow: -22px 0 50px rgba(15, 32, 39, 0.12); }
+.nd-preview .ant-drawer-body { padding: 24px; background: var(--nd-line-soft); }
 .nd-preview-title { font-size: 12.5px; font-weight: 600; }
-.nd-preview-body { flex: 1; overflow: auto; padding: 24px; background: var(--nd-line-soft); }
 .nd-preview-page {
   background: #fff; border: 1px solid #e4eff0; border-radius: 8px; padding: 34px 32px; min-height: 200px;
   box-shadow: 0 1px 3px rgba(15, 32, 39, 0.05);
@@ -356,14 +317,6 @@
 .nd-placeholder { display: block; background: var(--nd-placeholder); border-radius: 6px; }
 .nd-placeholder-block { width: 100%; height: 100%; min-height: 80px; border-radius: 8px; }
 
-@keyframes nd-fade-up {
-  from { transform: translateY(6px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-@keyframes nd-slide-in {
-  from { transform: translateX(24px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
@@ -372,5 +325,4 @@
     width: auto; flex: none; max-height: 40%;
     border-left: 0; border-top: 1px solid var(--nd-line);
   }
-  .nd-preview { width: 100%; max-width: 100%; }
 }
