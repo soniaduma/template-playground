@@ -26,11 +26,11 @@
   color: var(--nd-ink);
   background: var(--nd-navy);
   height: 100%;
-  min-height: 520px;
   width: 100%;
   display: flex;
   position: relative;
-  overflow: hidden;
+  /* Short viewports: the shell scrolls instead of clipping header/footer. */
+  overflow: auto;
 }
 
 .nd-spacer { flex: 1; }
@@ -40,6 +40,7 @@
 /* ---------- Left rail ---------- */
 .nd-rail {
   width: 56px;
+  min-height: 520px;
   flex: none;
   background: var(--nd-navy);
   display: flex;
@@ -114,7 +115,7 @@
 
 /* ---------- Main column ---------- */
 .nd-main {
-  flex: 1; min-width: 0;
+  flex: 1; min-width: 0; min-height: 520px;
   display: flex; flex-direction: column;
   background: radial-gradient(120% 90% at 50% -10%, #f7fbfc 0%, #e7f0f2 55%, #dde9ec 100%);
   border-radius: 10px 0 0 18px;
@@ -124,7 +125,7 @@
 /* ---------- Header ---------- */
 .nd-header { flex: none; background: #fff; }
 .nd-header-row {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   padding: 11px 22px 9px;
 }
 .nd-header-titles { min-width: 0; }
@@ -135,7 +136,7 @@
 .nd-header-sample { display: flex; align-items: baseline; gap: 10px; margin-top: 6px; }
 .nd-header-sample-name { font-size: 18px; font-weight: 600; letter-spacing: -0.022em; }
 .nd-header-actions {
-  display: flex; align-items: center; gap: 5px;
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
   font-size: 12.5px; color: var(--nd-text-2);
 }
 
@@ -411,4 +412,14 @@
 @keyframes nd-slide-in {
   from { transform: translateX(24px); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .nd-view-editor { flex-direction: column; }
+  .nd-help-rail {
+    width: auto; flex: none; max-height: 40%;
+    border-left: 0; border-top: 1px solid var(--nd-line);
+  }
+  .nd-preview { width: 100%; max-width: 100%; }
 }
