@@ -65,6 +65,7 @@ export const HELP_RAIL = {
   checklist: "CHECKLIST",
   tabWhy: "WHY THIS STEP",
   tabHow: "HOW IT WORKS",
+  tablistLabel: "Step guidance sections",
 } as const;
 
 export const PREVIEW = {
