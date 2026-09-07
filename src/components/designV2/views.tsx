@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
 import HelpRail from "./HelpRail";
 import { STEPS, STEP_ID, STEP_KEY, isEditorStep, type EditorStepKey, type DesignV2View } from "../../types/designV2.types";
 import { ROUTES, WELCOME, START, EDITOR, SIMULATE, DEPLOY, type EditorMeta } from "./constants";
@@ -31,10 +32,10 @@ export const WelcomeView = ({ onStart }: WelcomeViewProps) => {
         {WELCOME.subtitleLine2}
       </p>
       <div className="nd-hero-actions">
-        <button type="button" className="nd-btn-hero" onClick={onStart}>
-          {WELCOME.start} <span>→</span>
-        </button>
-        <button type="button" className="nd-btn-hero-outline" onClick={() => navigate(ROUTES.learnIntro)}>{WELCOME.howItWorks}</button>
+        <Button type="primary" size="large" shape="round" onClick={onStart}>
+          {WELCOME.start} →
+        </Button>
+        <Button ghost size="large" shape="round" onClick={() => navigate(ROUTES.learnIntro)}>{WELCOME.howItWorks}</Button>
       </div>
       <div className="nd-spacer" />
       <div className="nd-hero-strip">
@@ -62,8 +63,8 @@ export const StartView = () => (
       <span className="nd-start-title">{START.title}</span>
       <span className="nd-start-hint">{START.hint}</span>
       <div className="nd-spacer" />
-      <button type="button" className="nd-btn-dashed">{START.blank}</button>
-      <button type="button" className="nd-btn-outline-sm">{START.draftWithAi}</button>
+      <Button type="dashed" size="small">{START.blank}</Button>
+      <Button size="small">{START.draftWithAi}</Button>
       <label className="nd-checkbox">
         <input type="checkbox" defaultChecked /> {START.includeLogic}{" "}
         <span className="nd-start-hint">{START.includeLogicHint(STEP_ID.data, STEP_ID.logic)}</span>
@@ -93,7 +94,7 @@ export const EditorView = ({ step }: EditorViewProps) => {
             <h1>{meta.title}</h1>
           </div>
           {step === "logic" && (
-            <button type="button" className="nd-btn-outline-sm">{EDITOR.scaffoldFromModel}</button>
+            <Button size="small">{EDITOR.scaffoldFromModel}</Button>
           )}
         </div>
         <div className="nd-editor-card">
@@ -101,8 +102,8 @@ export const EditorView = ({ step }: EditorViewProps) => {
             <span className="nd-mono nd-editor-file">{meta.file}</span>
             <span className="nd-badge nd-badge-teal">{meta.badge}</span>
             <div className="nd-spacer" />
-            <button type="button" className="nd-btn-ghost-sm">{EDITOR.format}</button>
-            <button type="button" className="nd-btn-ghost-sm">{EDITOR.copy}</button>
+            <Button type="text" size="small">{EDITOR.format}</Button>
+            <Button type="text" size="small">{EDITOR.copy}</Button>
           </div>
           <div className="nd-editor-card-body">
             <div className="nd-placeholder nd-placeholder-block" />

@@ -143,7 +143,6 @@
 /* Help dropdown */
 .nd-help { position: relative; }
 .nd-help-caret { font-size: 9px; margin-left: 3px; }
-.nd-btn-ghost-active { background: #eef5f6; }
 .nd-help-backdrop { position: fixed; inset: 0; z-index: 30; }
 .nd-help-menu {
   position: absolute; top: calc(100% + 6px); right: 0; z-index: 31; min-width: 200px;
@@ -225,20 +224,6 @@
 }
 .nd-hero-sub { position: relative; margin: 0; font-size: 16.5px; line-height: 1.55; color: #a9cbd3; max-width: 760px; }
 .nd-hero-actions { position: relative; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
-.nd-btn-hero {
-  display: flex; align-items: center; gap: 10px;
-  background: linear-gradient(180deg, #19a0a8, #0c6e78);
-  border: 0; border-radius: 999px; padding: 16px 32px;
-  font-size: 15.5px; font-weight: 600; color: #fff; cursor: pointer;
-  box-shadow: 0 4px 12px rgba(7, 32, 43, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-.nd-btn-hero:hover { transform: translateY(-2px); }
-.nd-btn-hero-outline {
-  background: none; border: 1px solid rgba(159, 214, 220, 0.3); border-radius: 999px;
-  padding: 15px 24px; font-size: 14px; font-weight: 600; color: #cfe8eb; cursor: pointer;
-}
-.nd-btn-hero-outline:hover { border-color: rgba(159, 214, 220, 0.6); background: rgba(159, 214, 220, 0.08); }
 .nd-hero-strip {
   position: relative; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
   padding-top: 18px; font-family: "IBM Plex Serif", Georgia, serif; font-size: 15px; color: #93b4bd;
@@ -359,41 +344,7 @@
 .nd-problem-pill { font-size: 12.5px; font-weight: 600; border-radius: 999px; padding: 6px 13px; white-space: nowrap; }
 .nd-problem-pill-ok { color: #0c8b57; background: #def3e9; }
 
-/* ---------- Buttons & badges ---------- */
-.nd-btn-ghost, .nd-btn-ghost-sm {
-  background: none; border: 1px solid transparent; border-radius: 8px;
-  font-weight: 600; color: var(--nd-text-2); cursor: pointer; white-space: nowrap;
-}
-.nd-btn-ghost { padding: 8px 11px; font-size: 12.5px; }
-.nd-btn-ghost-sm { padding: 5px 8px; font-size: 12px; color: var(--nd-text-3); border-radius: 7px; }
-.nd-btn-ghost:hover, .nd-btn-ghost-sm:hover { background: #eef5f6; }
-.nd-btn-outline, .nd-btn-outline-sm {
-  background: #fff; border: 1px solid var(--nd-line); border-radius: 10px;
-  font-weight: 600; color: #24424c; cursor: pointer; white-space: nowrap; flex: none;
-}
-.nd-btn-outline { padding: 9px 14px; font-size: 12.5px; margin-left: 6px; }
-.nd-btn-outline-sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; color: var(--nd-teal-dark); }
-.nd-btn-outline:hover, .nd-btn-outline-sm:hover { background: #eef5f6; }
-.nd-btn-outline-active { background: var(--nd-teal-tint); border-color: #a9dfe1; color: var(--nd-teal); }
-.nd-btn-dashed {
-  background: #fff; border: 1px dashed #b7cfd3; border-radius: 8px; padding: 6px 10px;
-  font-size: 12px; font-weight: 600; color: var(--nd-text-2); cursor: pointer; white-space: nowrap;
-}
-.nd-btn-dashed:hover { border-color: #12707b; }
-.nd-btn-primary, .nd-btn-primary-sm {
-  background: linear-gradient(180deg, #0c949c, #077a81);
-  border: 0; border-radius: 8px; font-weight: 600; color: #fff; cursor: pointer; white-space: nowrap;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-.nd-btn-primary { padding: 11px 21px; font-size: 13px; box-shadow: 0 6px 16px rgba(10, 129, 136, 0.34); }
-.nd-btn-primary-sm { padding: 9px 15px; font-size: 12.5px; }
-.nd-btn-primary:hover { transform: translateY(-1px); }
-.nd-btn-compile {
-  background: #fff; border: 1.5px solid #a9dfe1; border-radius: 8px; padding: 10px 15px;
-  font-size: 12.5px; font-weight: 600; color: var(--nd-teal); cursor: pointer;
-}
-.nd-btn-compile:hover { background: #f0fbfb; }
-.nd-btn-close { background: none; border: 0; font-size: 16px; color: var(--nd-text-3); cursor: pointer; line-height: 1; }
+/* ---------- Badges ---------- */
 .nd-badge {
   font-family: var(--nd-mono); font-size: 10.5px; font-weight: 600;
   border-radius: 6px; padding: 3px 8px; white-space: nowrap;

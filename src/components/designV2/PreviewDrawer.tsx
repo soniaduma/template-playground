@@ -1,3 +1,5 @@
+import { Button } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 import { PREVIEW } from "./constants";
 
 interface PreviewDrawerProps {
@@ -11,10 +13,8 @@ const PreviewDrawer = ({ onClose }: PreviewDrawerProps) => (
       <span className="nd-preview-title">{PREVIEW.title}</span>
       <span className="nd-badge nd-badge-teal">{PREVIEW.liveBadge}</span>
       <div className="nd-spacer" />
-      <button type="button" className="nd-btn-ghost">{PREVIEW.pdf}</button>
-      <button type="button" className="nd-btn-close" onClick={onClose} aria-label={PREVIEW.close}>
-        ×
-      </button>
+      <Button type="text" size="small">{PREVIEW.pdf}</Button>
+      <Button type="text" size="small" icon={<CloseOutlined />} onClick={onClose} aria-label={PREVIEW.close} />
     </div>
     <div className="nd-preview-body">
       <div className="nd-preview-page" />

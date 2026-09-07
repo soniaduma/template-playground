@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { FIRST_STEP, LAST_STEP, STEP_ID, type DesignV2View } from "../../types/designV2.types";
 import { FOOTER } from "./constants";
 
@@ -19,19 +20,19 @@ const Footer = ({ view, onBack, onNext }: FooterProps) => {
       <span className="nd-problem-pill nd-problem-pill-ok">{FOOTER.noProblems}</span>
       <div className="nd-spacer" />
       {canBack && (
-        <button type="button" className="nd-btn-ghost" onClick={onBack}>
+        <Button type="text" onClick={onBack}>
           {FOOTER.back}
-        </button>
+        </Button>
       )}
       {isLogic && (
-        <button type="button" className="nd-btn-compile">
+        <Button type="primary" ghost>
           {FOOTER.applyAndCompile}
-        </button>
+        </Button>
       )}
       {canNext && (
-        <button type="button" className="nd-btn-primary" onClick={onNext}>
+        <Button type="primary" size="large" onClick={onNext}>
           {isFirst ? FOOTER.startWithTemplate : FOOTER.next}
-        </button>
+        </Button>
       )}
     </footer>
   );

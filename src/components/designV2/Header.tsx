@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "antd";
 import { QuestionOutlined, UserOutlined, InfoOutlined, BookOutlined, CaretDownFilled } from "@ant-design/icons";
 import useAppStore from "../../store/store";
 import { STEPS, type DesignV2View } from "../../types/designV2.types";
@@ -45,18 +46,18 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
         </div>
         <div className="nd-spacer" />
         <div className="nd-header-actions">
-          <button type="button" className="nd-btn-ghost">{HEADER.docs}</button>
+          <Button type="text" size="small">{HEADER.docs}</Button>
           <div className="nd-help">
-            <button
+            <Button
               ref={helpTriggerRef}
-              type="button"
-              className={`nd-btn-ghost ${helpOpen ? "nd-btn-ghost-active" : ""}`}
+              type="text"
+              size="small"
               aria-haspopup="menu"
               aria-expanded={helpOpen}
               onClick={() => setHelpOpen((v) => !v)}
             >
               {HEADER.help} <CaretDownFilled className="nd-help-caret" />
-            </button>
+            </Button>
             {helpOpen && (
               <>
                 {/* Pointer-only dismissal; keyboard users close with Escape (see useDismissableMenu). */}
@@ -80,15 +81,16 @@ const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps)
               </>
             )}
           </div>
-          <button type="button" className="nd-btn-outline">{HEADER.advanced}</button>
-          <button
-            type="button"
-            className={`nd-btn-outline ${previewOpen ? "nd-btn-outline-active" : ""}`}
+          <Button size="small">{HEADER.advanced}</Button>
+          <Button
+            size="small"
+            type={previewOpen ? "primary" : "default"}
+            ghost={previewOpen}
             onClick={onTogglePreview}
             aria-pressed={previewOpen}
           >
             {HEADER.preview}
-          </button>
+          </Button>
         </div>
       </div>
 
