@@ -30,9 +30,25 @@ export type DesignV2View = "welcome" | StepId;
 export const EDITOR_STEP_KEYS = ["text", "model", "data", "logic"] as const satisfies readonly StepKey[];
 export type EditorStepKey = (typeof EDITOR_STEP_KEYS)[number];
 
+/**
+ * Build a lookup from STEPS, failing fast on duplicate keys so a mistake in
+ * the step list surfaces at module load instead of hiding behind a cast.
+ */
+function stepLookup<K extends PropertyKey, V>(
+  pick: (step: StepDefinition) => readonly [K, V]
+): Record<K, V> {
+  const lookup: Partial<Record<K, V>> = {};
+  for (const step of STEPS) {
+    const [key, value] = pick(step);
+    if (key in lookup) throw new Error(`Duplicate step ${String(key)} in STEPS`);
+    lookup[key] = value;
+  }
+  return lookup as Record<K, V>;
+}
+
 /** Lookup tables derived from STEPS: key → id and id → key. */
-export const STEP_ID = Object.fromEntries(STEPS.map((s) => [s.key, s.id])) as Record<StepKey, StepId>;
-export const STEP_KEY = Object.fromEntries(STEPS.map((s) => [s.id, s.key])) as Record<StepId, StepKey>;
+export const STEP_ID = stepLookup((s) => [s.key, s.id] as const);
+export const STEP_KEY = stepLookup((s) => [s.id, s.key] as const);
 
 export const FIRST_STEP: StepId = STEPS[0].id;
 export const LAST_STEP: StepId = STEPS[STEPS.length - 1].id;
