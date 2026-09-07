@@ -23,7 +23,7 @@ interface HeaderProps {
   onTogglePreview: () => void;
 }
 
-/** White header: eyebrow + sample name row, followed by the six-step stepper. */
+/** White header: eyebrow + sample name row, followed by the stepper (one entry per item in STEPS). */
 const Header = ({ view, previewOpen, onNavigate, onTogglePreview }: HeaderProps) => {
   const showChrome = view !== "welcome";
   const sampleName = useAppStore((s) => s.sampleName);
