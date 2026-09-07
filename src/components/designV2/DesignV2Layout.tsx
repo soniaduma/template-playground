@@ -1,4 +1,6 @@
+import { ConfigProvider } from "antd";
 import useDesignV2Store from "../../store/designV2Store";
+import { designV2Theme } from "./theme";
 import Rail from "./Rail";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -23,6 +25,7 @@ import "./DesignV2Layout.css";
  *   └──────┴───────────────────────────────────────────┘
  *
  * View / preview state lives in useDesignV2Store (src/store/designV2Store.ts).
+ * antd components inside are themed with the v2 palette via ConfigProvider (see theme.ts).
  * All content areas are placeholders; wiring to the editors comes later.
  * Rendered from App.tsx when the "Enable Design v2" (isDesignV2Enabled) feature flag is on.
  */
@@ -39,6 +42,7 @@ const DesignV2Layout = () => {
   const showChrome = view !== "welcome";
 
   return (
+    <ConfigProvider theme={designV2Theme()}>
     <div className="nd-root">
       <Rail />
       <div className="nd-main">
@@ -57,6 +61,7 @@ const DesignV2Layout = () => {
         {showChrome && <Footer view={view} onBack={goBack} onNext={goNext} />}
       </div>
     </div>
+    </ConfigProvider>
   );
 };
 
