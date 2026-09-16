@@ -34,7 +34,9 @@ import "./DesignV2Layout.css";
  * card carries its own "Start with this template" button.
  * antd components inside are themed with the v2 palette via ConfigProvider (see theme.ts).
  * Simulate runs the compiled logic through the store's initContract /
- * triggerContract (see SimulateView.tsx). Deploy is still a placeholder.
+ * triggerContract (see SimulateView.tsx). Deploy offers the agreement as
+ * PDF / text / link and the template as a .cta archive, plus links to the
+ * APAP, engine and MCP docs (see deployActions.ts).
  * Rendered from App.tsx when the "Enable Design v2" (isDesignV2Enabled) feature flag is on.
  */
 const DesignV2Layout = () => {

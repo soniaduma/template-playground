@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { useState } from "react";
+import { Button, message } from "antd";
 import { ModelDataView } from "./ModelDataView";
 import { TextView } from "./TextView";
 import { LogicView } from "./LogicView";
 import SimulateView from "./SimulateView";
 import SampleArt from "./SampleArt";
+import useAppStore from "../../store/store";
 import useDesignV2Store from "../../store/designV2Store";
 import { usePickTemplate } from "./usePickTemplate";
+import { agreementText, buildTemplateArchive, downloadAgreementPdf, saveFile, templateArchiveName } from "./deployActions";
 import { STEP_KEY, type DesignV2View } from "../../types/designV2.types";
 import {
   ROUTES,
@@ -14,12 +17,13 @@ import {
   START,
   START_SAMPLES,
   DEPLOY,
+  type DeployActionKey,
   type StartSample,
 } from "./constants";
 
 /*
- * Welcome hero, template gallery and the Deploy placeholder. Each is swapped
- * in by DesignV2Layout based on `view`; the editor steps live in their own files.
+ * Welcome hero, template gallery and the Deploy step. Each is swapped in by
+ * DesignV2Layout based on `view`; the editor steps live in their own files.
  */
 
 interface WelcomeViewProps {
@@ -148,21 +152,92 @@ export const StartView = () => {
   );
 };
 
-/** Step 7: Deploy — placeholder until the deploy flow is designed. */
-export const DeployView = () => (
-  <div className="nd-view nd-view-export">
-    <div className="nd-export-head">
-      <h1>{DEPLOY.title}</h1>
+/**
+ * Step 6: Deploy — one card per way out of the Playground, each with a line
+ * on what it does. Action cards work right here (PDF, share link, agreement
+ * text, .cta archive — see deployActions.ts); link cards open the docs in a
+ * new tab and say so with ↗. One action runs at a time.
+ */
+export const DeployView = () => {
+  const agreementHtml = useAppStore((s) => s.agreementHtml);
+  const templateMarkdown = useAppStore((s) => s.templateMarkdown);
+  const modelCto = useAppStore((s) => s.modelCto);
+  const data = useAppStore((s) => s.data);
+  const logicTs = useAppStore((s) => s.logicTs);
+  const sampleName = useAppStore((s) => s.sampleName);
+  const generateShareableLink = useAppStore((s) => s.generateShareableLink);
+  const selectedTemplate = useDesignV2Store((s) => s.selectedTemplate);
+  const [busy, setBusy] = useState<DeployActionKey | null>(null);
+  const name = selectedTemplate ?? sampleName;
+
+  const copy = async (text: string, done: string) => {
+    if (!navigator.clipboard) throw new Error("clipboard unavailable");
+    await navigator.clipboard.writeText(text);
+    void message.success(done);
+  };
+  const actions: Record<DeployActionKey, () => Promise<void>> = {
+    pdf: () => downloadAgreementPdf(agreementHtml),
+    share: () => copy(generateShareableLink(), DEPLOY.done.share),
+    copy: () => copy(agreementText(agreementHtml), DEPLOY.done.copy),
+    archive: async () => {
+      const file = templateArchiveName(name);
+      saveFile(await buildTemplateArchive({ name, templateMarkdown, modelCto, data, logicTs }), file, "application/zip");
+      void message.success(DEPLOY.done.archive(file));
+    },
+  };
+  const run = async (key: DeployActionKey) => {
+    setBusy(key);
+    try {
+      await actions[key]();
+    } catch (error) {
+      console.error(`Deploy action "${key}" failed:`, error);
+      void message.error(DEPLOY.failed[key]);
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  return (
+    <div className="nd-view nd-view-export">
+      <div className="nd-export-head">
+        <h1>{DEPLOY.title}</h1>
+        <p className="nd-export-subtitle">{DEPLOY.subtitle}</p>
+      </div>
+      <div className="nd-export-grid">
+        {DEPLOY.cards.map((card) => (
+          <article key={card.key} className="nd-card nd-export-card" aria-label={card.title}>
+            <span className="nd-export-label">{card.title}</span>
+            <p className="nd-export-desc">{card.description}</p>
+            <div className="nd-export-actions">
+              {"href" in card ? (
+                <>
+                  <Button href={card.href} target="_blank" rel="noopener noreferrer">
+                    {card.action}
+                  </Button>
+                  {card.more && (
+                    <a className="nd-export-more" href={card.more.href} target="_blank" rel="noopener noreferrer">
+                      {card.more.label}
+                    </a>
+                  )}
+                </>
+              ) : (
+                <Button
+                  type="primary"
+                  ghost
+                  loading={busy === card.key}
+                  disabled={busy !== null && busy !== card.key}
+                  onClick={() => void run(card.key)}
+                >
+                  {card.action}
+                </Button>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
-    <div className="nd-export-grid">
-      {DEPLOY.cards.map((label) => (
-        <div key={label} className="nd-card nd-export-card">
-          <span className="nd-export-label">{label}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 interface ViewSwitchProps {
   view: DesignV2View;

@@ -16,6 +16,10 @@ export const URLS = {
   templateMark: "https://github.com/accordproject/markdown-transform/blob/main/packages/markdown-template/README.md",
   logicDocs: "https://github.com/accordproject/template-engine/blob/main/README.md#logic",
   concertoIntro: "https://concerto.accordproject.org/docs/intro",
+  /** Docs site: the Agreement Protocol (APAP) — deploying a template, the tutorial, and its MCP endpoint. */
+  apapDeploy: "https://docs.accordproject.org/docs/ref-apap/#deploy-a-template",
+  apapTutorial: "https://docs.accordproject.org/docs/tutorial-apap/",
+  apapMcp: "https://docs.accordproject.org/docs/ref-apap/#mcp-support-experimental",
 } as const;
 
 export const ROUTES = {
@@ -396,7 +400,93 @@ export const SIMULATE = {
   },
 } as const;
 
+/** The cards that do something here (see deployActions.ts and DeployView). */
+export type DeployActionKey = "pdf" | "share" | "copy" | "archive";
+
+interface DeployCardBase {
+  title: string;
+  /** One line under the title: what it does and where it takes you. */
+  description: string;
+  /** Label of the card's button. Link cards end in ↗. */
+  action: string;
+}
+export interface DeployActionCard extends DeployCardBase {
+  key: DeployActionKey;
+}
+export interface DeployLinkCard extends DeployCardBase {
+  key: string;
+  /** Opens in a new tab. */
+  href: string;
+  /** A second, smaller link next to the button. */
+  more?: { label: string; href: string };
+}
+export type DeployCard = DeployActionCard | DeployLinkCard;
+
+/** Step "Deploy": every way out of the Playground, each saying what it does. Link cards open the docs in a new tab. */
+const DEPLOY_CARDS: readonly DeployCard[] = [
+  {
+    key: "pdf",
+    title: "Download PDF",
+    description: "Save the rendered agreement as a PDF to share or sign.",
+    action: "↓ Download PDF",
+  },
+  {
+    key: "share",
+    title: "Share link",
+    description: "Copy a link that opens this template in the Playground.",
+    action: "⧉ Copy link",
+  },
+  {
+    key: "copy",
+    title: "Copy to clipboard",
+    description: "Copy the rendered agreement text.",
+    action: "⧉ Copy text",
+  },
+  {
+    key: "archive",
+    title: "Download template archive",
+    description: "Save the template as a .cta archive you can version, publish or load anywhere Accord Project tooling runs.",
+    action: "↓ Download .cta",
+  },
+  {
+    key: "apap",
+    title: "Deploy to an APAP server",
+    description:
+      "Publish the template to an Agreement Protocol server so apps and services can create and trigger agreements over REST.",
+    action: "How to deploy ↗",
+    href: URLS.apapDeploy,
+    more: { label: "Tutorial ↗", href: URLS.apapTutorial },
+  },
+  {
+    key: "embed",
+    title: "Embed in your app",
+    description: "Use the template engine from your own code to draft, validate and execute this template.",
+    action: "Engine README ↗",
+    href: URLS.engineDocs,
+  },
+  {
+    key: "mcp",
+    title: "Deploy to an MCP server",
+    description:
+      "Expose the template to AI assistants (Claude, Cursor, …) through the Model Context Protocol endpoint of an APAP server.",
+    action: "MCP support ↗",
+    href: URLS.apapMcp,
+  },
+];
+
 export const DEPLOY = {
   title: "Deploy",
-  cards: ["Download PDF", "Share link", "Copy to clipboard"],
+  subtitle: "Take the agreement, or the template itself, out of the Playground.",
+  cards: DEPLOY_CARDS,
+  done: {
+    share: "Link copied to clipboard",
+    copy: "Agreement text copied to clipboard",
+    archive: (file: string) => `${file} saved`,
+  },
+  failed: {
+    pdf: "Couldn’t generate the PDF",
+    share: "Couldn’t copy the link — the clipboard is not available here",
+    copy: "Couldn’t copy — the clipboard is not available here",
+    archive: "Couldn’t build the template archive",
+  },
 } as const;

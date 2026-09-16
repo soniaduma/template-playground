@@ -7,7 +7,7 @@
  * modelData → split screen: model.cto on the left, data.json on the right
  * logic     → logic.ts in the TypeScript editor, compiled via the footer
  * simulate  → runs list + request/response
- * deploy    → placeholder — contents TBD
+ * deploy    → ways out: PDF, share link, text, .cta archive, docs links
  *
  * Text comes before Model & Data: a template can be text only, and the model,
  * logic and simulator are optional additions on top of it.
